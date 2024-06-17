@@ -1,43 +1,23 @@
 const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
-const cors = require('cors');
 const app = express();
+const http = require('http');
 const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: {
-    origin: 'https://visio-frontend-xi.vercel.app', // ou substitua '*' pela URL específica do frontend, por exemplo: 'https://seu-frontend.vercel.app'
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true
-  }
-});
-
-// Use o middleware CORS
-app.use(cors({
-  origin: 'https://visio-frontend-xi.vercel.app', // ou substitua '*' pela URL específica do frontend, por exemplo: 'https://seu-frontend.vercel.app'
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type'],
-  credentials: true
-}));
+const { Server } = require("socket.io");
+const io = new Server(server);
+const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.send('Servidor rodando...');
+    res.write(`<h1>Socket IO Start on Port : ${PORT}</h1>`);
+    res.end();
 });
 
 io.on('connection', (socket) => {
-  console.log('Novo cliente conectado');
-
-  socket.on('message', (msg) => {
-    console.log('Mensagem recebida:', msg);
-    io.emit('message', msg);
-  });
-
-  socket.on('disconnect', () => {
-    console.log('Cliente desconectado');
-  });
+    console.log('a user connected');
+    socket.on('message', (ms) => {
+        io.emit('message', ms);
+    });
 });
 
-server.listen(3000, () => {
-  console.log('Servidor rodando na porta 3000');
+server.listen(PORT, () => {
+    console.log('listening on *:3000');
 });
