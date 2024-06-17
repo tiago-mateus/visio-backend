@@ -1,29 +1,30 @@
 const express = require('express');
-const app = express();
 const http = require('http');
-const server = http.createServer(app);
+const cors = require('cors');
 const { Server } = require("socket.io");
+
+const app = express();
+const server = http.createServer(app);
 const io = new Server(server);
 const PORT = process.env.PORT || 3000;
 
-// Middleware to enable CORS
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://visio-frontend-xi.vercel.app');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
-});
+// Allow requests from specific origins
+const corsOptions = {
+    origin: 'https://visio-frontend-xi.vercel.app',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 
 app.get('/', (req, res) => {
-    res.write(`<h1>Socket IO Start on Port : ${PORT}</h1>`);
-    res.end();
+    res.send(`<h1>Socket IO Start on Port : ${PORT}</h1>`);
 });
 
 io.on('connection', (socket) => {
     console.log('a user connected');
-    socket.on('message', (ms) => {
-        io.emit('message', ms);
+    socket.on('message', (msg) => {
+        io.emit('message', msg);
     });
 });
 
