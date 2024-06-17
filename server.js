@@ -6,7 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: '*', // ou substitua '*' pela URL específica do frontend, por exemplo: 'https://seu-frontend.vercel.app'
+    origin: 'https://visio-frontend-xi.vercel.app', // ou substitua '*' pela URL específica do frontend, por exemplo: 'https://seu-frontend.vercel.app'
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
     credentials: true
@@ -15,7 +15,7 @@ const io = socketIo(server, {
 
 // Use o middleware CORS
 app.use(cors({
-  origin: '*', // ou substitua '*' pela URL específica do frontend, por exemplo: 'https://seu-frontend.vercel.app'
+  origin: 'https://visio-frontend-xi.vercel.app', // ou substitua '*' pela URL específica do frontend, por exemplo: 'https://seu-frontend.vercel.app'
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
   credentials: true
