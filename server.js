@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 // Allow requests from specific origins
 const corsOptions = {
-    origin: 'https://visio-frontend-xi.vercel.app',
+    origin: '*',
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
