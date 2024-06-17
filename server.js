@@ -4,6 +4,7 @@ const socketIo = require('socket.io');
 const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
+const PORT = process.env.PORT || 3000;
 const io = socketIo(server, {
   cors: {
     origin: '*', // ou substitua '*' pela URL específica do frontend, por exemplo: 'https://seu-frontend.vercel.app'
@@ -38,6 +39,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log('Servidor rodando na porta 3000');
+server.listen(PORT, () => {
+  console.log('Servidor rodando na porta '+PORT);
 });
